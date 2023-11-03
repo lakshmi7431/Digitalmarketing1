@@ -1,0 +1,243 @@
+<script>
+  $(document).ready(function(){
+
+var $filters = $('.works-filter'); // find the filters
+var $works = $('.workItem'); // find the portfolio items
+var showAll = $('.showAll'); // identify the "show all" button
+
+var cFilter, cFilterData; // declare a variable to store the filter and one for the data to filter by
+var filtersActive = []; // an array to store the active filters
+
+$filters.click(function(){ // if filters are clicked
+  cFilter = $(this);
+  cFilterData = cFilter.attr('data-filter'); // read filter value
+
+  highlightFilter();        
+  applyFilter();       
+});
+
+function highlightFilter () {
+  var filterClass = 'works-filter-active';
+  if (cFilter.hasClass(filterClass)) {
+      cFilter.removeClass(filterClass);
+      removeActiveFilter(cFilterData);
+  } else if (cFilter.hasClass('showAll')) {
+      $filters.removeClass(filterClass);
+      filtersActive = []; // clear the array
+      cFilter.addClass(filterClass);
+  } else {
+      showAll.removeClass(filterClass);
+      cFilter.addClass(filterClass);
+      filtersActive.push(cFilterData);
+  }
+}
+
+function applyFilter() {
+  // go through all portfolio items and hide/show as necessary
+  $works.each(function(){
+      var i;
+      var classes = $(this).attr('class').split(' ');
+      if (cFilter.hasClass('showAll') || filtersActive.length == 0) { // makes sure we catch the array when its empty and revert to the default of showing all items
+          $works.addClass('show-workItem'); //show them all
+      } else {
+          $(this).removeClass('show-workItem');
+          for (i = 0; i < classes.length; i++) {
+              if (filtersActive.indexOf(classes[i]) > -1) {
+                  $(this).addClass('show-workItem');
+              }
+          }
+      } 
+  });
+}
+
+// remove deselected filters from the ActiveFilter array
+function removeActiveFilter(item) {
+  var index = filtersActive.indexOf(item);
+  if (index > -1) {
+      filtersActive.splice(index, 1);
+  }
+}
+
+});
+</script><style>
+  body {  
+background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+}
+
+.img-center {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+
+.img-showcase{
+width: 60%;
+height: 80%;
+object-fit: cover;
+
+}
+
+.img-container {
+width: 40%;
+height: 40%;
+  display: block;
+  position: relative;
+}
+
+.link-overlay {
+color: #fff;
+text-decoration: none;
+}
+
+.link-overlay:hover {
+color: #000;
+background-color: #fff;
+transition: all 0.75s ease-in-out;
+text-decoration: none;
+}
+
+.works-filter {
+display: inline-block;
+text-decoration: none;
+transition: all .35s ease;
+}
+
+.works-filter:hover {
+cursor: pointer;
+text-decoration: underline;
+transition: all .35s ease;
+}
+
+.works-filter-active {
+text-decoration: underline;
+transition: all .35s ease;
+}
+
+.works-filter-active::before {
+content: "X ";
+text-transform: none;
+transition: all .35s ease;
+}
+
+.workItem {
+display: none;
+}
+
+.show-workItem {
+display: block;
+transition: all .35s ease;
+}
+
+.overlay {
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.5);
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+opacity: 0;
+color: #fff;
+transition: all 0.5s ease-in-out;
+}
+
+.overlay:hover {
+opacity: 1;
+}
+</style><div class="container text-light">
+  <div class="row mt-5">
+    <div class="col text-center">
+      <h1 class="mb-5">V&Y Digital Markrting Services</h1>
+      <p>An overlay shows each picture's details.</p>
+      <p>Select filter to apply, click again to remove. Click more than one filter to apply multiple filters.</p>
+      <p>"These are some of our best projects"</p>
+      <p>All details: <a href="https://www.boardinfinity.com/blog/20-digital-marketing-projects-for-beginners/" class="text-warning" target="_blank">Digital marketing</a></p>
+      <hr class="my-5 shadow-sm">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div id="filters" class="d-flex flex-row flex-wrap justify-content-between mb-5">
+        <span class="works-filter flex-grow-1 w-sm-100 my-2" data-filter="catA">Category A</span>
+        <span class="works-filter flex-grow-1 w-sm-100 my-2" data-filter="catB">Category B</span>
+        <span class="works-filter flex-grow-1 w-sm-100 my-2" data-filter="catC">Category C</span>
+        <span class="text-right works-filter flex-grow-1 w-sm-100 my-2 showAll" data-filter="all">All Projects</span>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-sm-12 col-md-6 my-3 workItem show-workItem catA">
+      <div class="img-container m-0 p-0 shadow-sm">
+        <img src="backlink.jpg" class="img-center img-fluid img-showcase">
+        <div class="overlay d-flex flex-column align-items-center justify-content-center">
+          <h2><a class="link-overlay" href="#" title="Pepsi Case">Back Links</a></h2>
+          <p class="d-block small">Category A</p>
+          <p>There are around 200 factors that go into ranking websites. One of the factors that rank high on this scale is backlinks. Google considers backlinks as votes.
+
+            There are two key things Google looks at when it comes to backlinks:
+            <br>
+              - Relevancy
+            <br>
+              - Domain authority
+            <br>
+            These two metrics establish how your page will rank in terms of backlinks. For eg: a global brand linking back to you is of more weightage as opposed to a local brand. Knowledge of this will help you be an SEO expert and further your career in this field.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 my-3 workItem show-workItem catB">
+      <div class="img-container m-0 p-0 shadow-sm">
+        <img src="link.jpg" class="img-center img-fluid img-showcase">
+        <div class="overlay d-flex flex-column align-items-center justify-content-center">
+          <h2><a class="link-overlay" href="#" title="Contoso Case"></a>LinkedIn Marketing</h2>
+          <p class="d-block small">Category B</p>
+          <p>LinkedIn is a goldmine when it comes to networking, job search, getting leads, and even acquiring new clients. If you fully optimize this platform, it will reap the right benefits.</p>
+          <p>As a business, you can get clients, potential business, and more. As a freelancer, you can meet like-minded people and collaborate with them. The opportunities of this platform are endless.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 my-3 workItem show-workItem catC">
+      <div class="img-container m-0 p-0 shadow-sm">
+        <img src="content.jpg" class="img-center img-fluid img-showcase">
+        <div class="overlay d-flex flex-column align-items-center justify-content-center">
+          <h2><a class="link-overlay" href="#" title="Cola Case">Content Creators</a></h2>
+          <p class="d-block small">Category C</p>
+          <p>This is a lucrative career but involves a lot of hustle. If you have a story to tell, then you should opt for this career. Whether it's on stories, reels, or through video, carving a story that will engage audiences is what content creators primarily do.
+
+            Content creators usually establish their presence across different platforms. They make different formats of content such as vlogs, comedy, fashion, DIY, relatable humor, and more. Through YT revenue, collaborating with brands, creating content IP’s and even pitching their ideas/shows to OTT platforms, content creators can make money.
+            
+            </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 my-3 workItem show-workItem catA catC">
+      <div class="img-container m-0 p-0 shadow-sm">
+        <img src="wordpress.jpg" class="img-center img-fluid img-showcase">
+        <div class="overlay d-flex flex-column align-items-center justify-content-center">
+          <h2><a class="link-overlay" href="#" title="Example Case">WordPress</a></h2>
+          <p class="d-block small">Category D</p>
+          <p>WordPress is a great place to start if you have something to offer to the internet. Whether you or a blogger, developer, or into e-commerce, WordPress is one of the most used tool on the internet. What started out as blogging is now being used as a Content Management System.
+
+            It is extremely simple to use even if you are from a non-tech background. An advantage of WordPress is that developing a website for personal use or for your brand is much cheaper here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-1">
+    <div class="col text-center">
+      
+    </div>
+  </div>
+</div>
+<div class="menu">
+
+  <ul>
+      <li><a href="./index.html">HOME</a></li>
+      <li><a href="./about.html">ABOUT</a></li>
+      <li><a href="./service.html">SERVICE</a></li>
+      <li><a href="./portfolio.html">PORTFOLIO</a></li>
+      <li><a href="./contact.html">CONTACT</a></li>
+  </ul>
+
+</div>
